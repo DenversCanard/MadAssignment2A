@@ -9,7 +9,7 @@ public class MainActivityData extends ViewModel {
 
     public MainActivityData(){
         DisplayScreen = new MediatorLiveData<String>();
-        DisplayScreen.setValue("Home");
+        DisplayScreen.setValue("Contacts");
     }
     public String getDisplayScreen(){
         return DisplayScreen.getValue();

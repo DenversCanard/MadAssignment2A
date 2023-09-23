@@ -14,6 +14,9 @@ public class MainActivity extends AppCompatActivity {
     MainActivityData mainActivityDataViewModel;
     String verifyScreenState;
 
+    ContactsFragment contacts = new ContactsFragment();
+    ProfileFragment profile = new ProfileFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         mainActivityDataViewModel = new ViewModelProvider(this).get(MainActivityData.class);
 
-        String tmpScreenState = "Home";
+        String tmpScreenState = "Contacts";
         if(savedInstanceState != null)
         {
             mainActivityDataViewModel.setDisplayScreen(savedInstanceState.getString("screenValue"));
@@ -36,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
                 if (string.compareTo(verifyScreenState) != 0) {
                     Log.d("String", string);
 
-                    if (string.equals("Home")) {
-                        loadHomePageFragment();
+                    if (string.equals("Contacts")) {
+                        loadContactsFragment();
                     }
-                    if (string.equals("Play")) {
-                        loadPlayPageFragment();
+                    if (string.equals("Profile")) {
+                        loadContactInfoFragment();
                     }
                     verifyScreenState = string;
                 }
@@ -53,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         Fragment frag = fm.findFragmentById(R.id.fragmentContainerView);
         if(frag==null){
-            fm.beginTransaction().add(R.id.fragmentContainerView,playPageFragment).commit();
+            fm.beginTransaction().add(R.id.fragmentContainerView,contacts).commit();
         }
         else{
-            fm.beginTransaction().replace(R.id.fragmentContainerView,playPageFragment).commit();
+            fm.beginTransaction().replace(R.id.fragmentContainerView,contacts).commit();
         }
     }
 
@@ -65,10 +68,10 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         Fragment frag = fm.findFragmentById(R.id.fragmentContainerView);
         if(frag==null){
-            fm.beginTransaction().add(R.id.fragmentContainerView,playPageFragment).commit();
+            fm.beginTransaction().add(R.id.fragmentContainerView,profile).commit();
         }
         else{
-            fm.beginTransaction().replace(R.id.fragmentContainerView,playPageFragment).commit();
+            fm.beginTransaction().replace(R.id.fragmentContainerView,profile).commit();
         }
     }
 }
