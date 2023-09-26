@@ -6,17 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ContactsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ContactsFragment extends Fragment {
 
     RecyclerView recycView;
@@ -34,15 +31,15 @@ public class ContactsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
         recycView = (RecyclerView) view.findViewById(R.id.contactsRecyclerView);
-//        recycView.setLayoutManager(new GridLayoutManager(   // TODO
-//                getActivity(),
-//                MapData.HEIGHT,
-//                GridLayoutManager.HORIZONTAL,
-//                false));
+        recycView.setLayoutManager(new LinearLayoutManager(   // TODO
+                getActivity(),
+                LinearLayoutManager.VERTICAL,
+                false));
 
+        Log.d("contacts", "contacts");
         contactsAdapter = new ContactsAdapter();
         recycView.setAdapter(contactsAdapter);
 
-        return inflater.inflate(R.layout.fragment_contacts, container, false);
+        return view;
     }
 }

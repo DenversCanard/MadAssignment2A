@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         }
         verifyScreenState = tmpScreenState;
 
+        Log.d("main", "main");
         mainActivityDataViewModel.DisplayScreen.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String string) {
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        loadContactsFragment();
+
     }
 
     public void loadContactsFragment()

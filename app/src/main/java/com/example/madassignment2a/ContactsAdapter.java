@@ -21,6 +21,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsVH>
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.contact_layout, parent, false);
 
+        Log.d("vh", "vh");
         ContactsVH contactVH = new ContactsVH(view, parent);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +37,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsVH>
     public void onBindViewHolder(@NonNull ContactsVH holder, int position)
     {
         // Holder logic goes here
-
+        holder.name.setText("name" + position);
+        holder.number.setText(position+"");
+        Log.d("pos", "pos"+position);
     }
 
     @Override
