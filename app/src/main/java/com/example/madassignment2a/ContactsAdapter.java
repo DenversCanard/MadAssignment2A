@@ -6,13 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsVH>
 {
-    public ContactsAdapter()
-    {
+    public interface AdapterListener {
+        public void processCommand(String command,int position);
+    }
 
+    private AdapterListener mCallBack;
+    public ContactsAdapter(AdapterListener callBack)
+    {
+        mCallBack = callBack;
     }
 
     @NonNull
@@ -20,15 +26,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsVH>
     public ContactsVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.contact_layout, parent, false);
-
-        Log.d("vh", "vh");
         ContactsVH contactVH = new ContactsVH(view, parent);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("in", "in");
-            }
-        });
 
         return contactVH;
     }
@@ -39,12 +37,18 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsVH>
         // Holder logic goes here
         holder.name.setText("name" + position);
         holder.number.setText(position+"");
+        holder.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCallBack.processCommand("Profile", position); // needs work
+            }
+        });
         Log.d("pos", "pos"+position);
     }
 
     @Override
     public int getItemCount() {
-            return 100; // Implement properly
+            return 40; // Implement properly
         }
 
 }

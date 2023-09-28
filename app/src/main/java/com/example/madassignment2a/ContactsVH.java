@@ -12,7 +12,6 @@ public class ContactsVH extends RecyclerView.ViewHolder
 {
     TextView name;
     TextView number;
-    Button call;
     Button menu;
 
     public ContactsVH(@NonNull View itemView, ViewGroup parent)
@@ -20,8 +19,6 @@ public class ContactsVH extends RecyclerView.ViewHolder
         super(itemView);
         name = itemView.findViewById(R.id.name);
         number = itemView.findViewById(R.id.number);
-        call = itemView.findViewById(R.id.callButton);
-        menu = itemView.findViewById(R.id.callButton);
-
+        menu = itemView.findViewById(R.id.menubutton);
     }
 }

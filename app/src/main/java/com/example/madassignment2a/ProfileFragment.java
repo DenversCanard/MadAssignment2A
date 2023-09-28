@@ -3,11 +3,13 @@ package com.example.madassignment2a;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,16 +19,8 @@ import android.view.ViewGroup;
 public class ProfileFragment extends Fragment {
 
     public ProfileFragment() {
-        // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +32,18 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.d("profile", "profile");
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        MainActivityData mainActivityData = new ViewModelProvider(getActivity()).get(MainActivityData.class);
 
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        Button backButton = view.findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainActivityData.setDisplayScreen("Contacts");
+            }
+        });
+
+
+        return view;
     }
 }
