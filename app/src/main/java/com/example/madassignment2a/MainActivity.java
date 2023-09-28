@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +23,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Prep Sql lite DB
+        ContactsDataAccessObject contactsDB = ContactsDataAccessObject.getInstance();
+        contactsDB.load(getApplicationContext());
+
+        // test DB
+        Contact contactOne = new Contact(1,"jimmy", 03450045, "yuppee", "nope.jpg");
+        contactsDB.addContact(contactOne);
+        Contact newContact = contactsDB.getContact(contactOne);
+        Toast.makeText(getApplicationContext(), newContact.getId()+"", Toast.LENGTH_SHORT);
+
+        // Prep mutable data
         mainActivityDataViewModel = new ViewModelProvider(this).get(MainActivityData.class);
 
         String tmpScreenState = "Contacts";

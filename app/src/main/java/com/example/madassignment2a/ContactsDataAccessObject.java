@@ -2,8 +2,9 @@ package com.example.madassignment2a;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 public class ContactsDataAccessObject {
     private static ContactsDataAccessObject contactsDataAccessObject = null;
@@ -34,8 +35,30 @@ public class ContactsDataAccessObject {
     }
 
     // Read
-    public void getContact(Contact contact) {
+    public Contact getContact(Contact contact) {
+        String[] cols = {"id"};
+        String whereClause = "id = ?";
+        String[] whereArgs = {Integer.toString(contact.getId())};
+        Cursor cursor = db.query(ContactsDBSchema.ContactsTable.TNAME,
+                cols,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null);
 
+        ContactsDBCursor contactsDBCursor = new ContactsDBCursor(cursor);
+
+        try
+        {
+            // An issue to fix TODO
+            contactsDBCursor.moveToFirst();
+            return contactsDBCursor.getContact();
+        }
+        finally
+        {
+            cursor.close();
+        }
     }
 
     // Update
