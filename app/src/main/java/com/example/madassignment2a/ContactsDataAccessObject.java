@@ -22,6 +22,7 @@ public class ContactsDataAccessObject {
         this.db = new ContactsDBHelper(context).getWritableDatabase();
     }
 
+    // Create
     public void addContact(Contact contact){
         ContentValues cv = new ContentValues();
         cv.put(ContactsDBSchema.ContactsTable.Cols.ID, contact.getId());
@@ -32,5 +33,22 @@ public class ContactsDataAccessObject {
         db.insert(ContactsDBSchema.ContactsTable.TNAME, null, cv);
     }
 
+    // Read
+    public void getContact(Contact contact) {
 
+    }
+
+    // Update
+    public void updateContact(Contact contact)
+    {
+
+    }
+
+    // Delete
+    public void deleteContact(Contact contact)
+    {
+
+    }
+    // Get all
+    public void getAll(){} // Empty for now
 }
