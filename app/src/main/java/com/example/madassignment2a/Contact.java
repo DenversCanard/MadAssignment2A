@@ -20,7 +20,7 @@ public class Contact {
     {
         this.id = id;
     }
-    public void setId(String name)
+    public void setName(String name)
     {
         this.name = name;
     }

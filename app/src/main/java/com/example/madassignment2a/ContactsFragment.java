@@ -40,7 +40,6 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.Adapte
                 LinearLayoutManager.VERTICAL,
                 false));
 
-        Log.d("contacts", "contac   ts");
         contactsAdapter = new ContactsAdapter(this);
         recycView.setAdapter(contactsAdapter);
 

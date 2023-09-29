@@ -31,7 +31,24 @@ public class MainActivity extends AppCompatActivity {
         Contact contactOne = new Contact(1,"jimmy", 03450045, "yuppee", "nope.jpg");
         contactsDB.addContact(contactOne);
         Contact newContact = contactsDB.getContact(contactOne);
-        Toast.makeText(getApplicationContext(), newContact.getId()+"", Toast.LENGTH_SHORT);
+        Log.d("Id", newContact.getName()+"");
+
+        contactOne.setName("Jerro");
+        contactsDB.updateContact(contactOne);
+        newContact = contactsDB.getContact(contactOne);
+        Log.d("Id", newContact.getName()+"");
+
+        contactOne.setName("Jerro");
+        contactsDB.updateContact(contactOne);
+        newContact = contactsDB.getContact(contactOne);
+        Log.d("Id", newContact.getName()+"");
+
+        contactsDB.deleteContact(contactOne);
+        newContact = contactsDB.getContact(contactOne);
+        if(newContact == null)
+        {
+            Log.d("delete", "success");
+        }
 
         // Prep mutable data
         mainActivityDataViewModel = new ViewModelProvider(this).get(MainActivityData.class);

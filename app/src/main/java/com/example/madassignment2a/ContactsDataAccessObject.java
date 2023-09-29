@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class ContactsDataAccessObject {
     private static ContactsDataAccessObject contactsDataAccessObject = null;
     private SQLiteDatabase db;
@@ -40,7 +42,7 @@ public class ContactsDataAccessObject {
         String whereClause = "id = ?";
         String[] whereArgs = {Integer.toString(contact.getId())};
         Cursor cursor = db.query(ContactsDBSchema.ContactsTable.TNAME,
-                cols,
+                null,
                 whereClause,
                 whereArgs,
                 null,
@@ -53,25 +55,71 @@ public class ContactsDataAccessObject {
         {
             // An issue to fix TODO
             contactsDBCursor.moveToFirst();
-            return contactsDBCursor.getContact();
+            while(!contactsDBCursor.isAfterLast())
+            {
+                return contactsDBCursor.getContact();
+//                cursor.moveToNext();
+            }
         }
         finally
         {
             cursor.close();
         }
+        return null;
     }
 
     // Update
     public void updateContact(Contact contact)
     {
+        ContentValues cv = new ContentValues();
+        cv.put(ContactsDBSchema.ContactsTable.Cols.ID, contact.getId());
+        cv.put(ContactsDBSchema.ContactsTable.Cols.NAME, contact.getName());
+        cv.put(ContactsDBSchema.ContactsTable.Cols.NUMBER, contact.getNumber());
+        cv.put(ContactsDBSchema.ContactsTable.Cols.DESCRIPTION, contact.getDescription());
+        cv.put(ContactsDBSchema.ContactsTable.Cols.PHOTO, contact.getPhotoPath());
 
+        String[] whereValue = {String.valueOf(contact.getId())};
+        db.update(ContactsDBSchema.ContactsTable.TNAME, cv,
+                ContactsDBSchema.ContactsTable.Cols.ID + " = ?",
+                whereValue);
     }
 
     // Delete
     public void deleteContact(Contact contact)
     {
-
+        String[] whereValue = {String.valueOf(contact.getId())};
+        db.delete(ContactsDBSchema.ContactsTable.TNAME,
+                ContactsDBSchema.ContactsTable.Cols.ID + " = ?",
+                whereValue);
     }
     // Get all
-    public void getAll(){} // Empty for now
+    public ArrayList<Contact> getAll()
+    {
+        ArrayList<Contact> allContacts = new ArrayList<>();
+        Cursor cursor = db.query(ContactsDBSchema.ContactsTable.TNAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        ContactsDBCursor contactsDBCursor = new ContactsDBCursor(cursor);
+
+        try
+        {
+            // An issue to fix TODO
+            contactsDBCursor.moveToFirst();
+            while(!contactsDBCursor.isAfterLast())
+            {
+                allContacts.add(contactsDBCursor.getContact());
+                cursor.moveToNext();
+            }
+        }
+        finally
+        {
+            cursor.close();
+        }
+        return allContacts;
+    } // Empty for now
 }
