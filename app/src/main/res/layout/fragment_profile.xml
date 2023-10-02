@@ -11,35 +11,35 @@
         android:layout_height="200dp"
         android:layout_marginTop="40dp"
         android:src="@android:drawable/btn_star_big_on"
-        app:layout_constraintBottom_toTopOf="@+id/name"
+        app:layout_constraintBottom_toTopOf="@+id/nameProfile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/name"
+        android:id="@+id/nameProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:text="Name"
         android:textSize="20dp"
         android:background="@null"
-        app:layout_constraintBottom_toTopOf="@+id/number"
+        app:layout_constraintBottom_toTopOf="@+id/numberProfile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/number"
+        android:id="@+id/numberProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="@null"
         android:text="00000000"
-        app:layout_constraintBottom_toTopOf="@+id/email"
+        app:layout_constraintBottom_toTopOf="@+id/emailProfile"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/emailProfile"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="8dp"

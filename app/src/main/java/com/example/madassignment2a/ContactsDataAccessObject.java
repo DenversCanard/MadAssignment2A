@@ -169,26 +169,9 @@ public class ContactsDataAccessObject {
         db.delete(ContactsDBSchema.ContactsTable.TNAME,
                 ContactsDBSchema.ContactsTable.Cols.NUMBER + " = ?",
                 whereValue);
-        updateIndexes();
     }
 
-    private void updateIndexes()
-    {
-        ArrayList<Contact> contacts = getAll();
-
-        for(int index = 0; index < contacts.size(); index++)
-        {
-            Contact curContact = contacts.get(index);
-            Contact newContact = new Contact(curContact.getName(),
-                                            curContact.getNumber(),
-                                            curContact.getEmail(),
-                                            curContact.getPhoto());
-            Log.d("name", curContact.getName());
-            Log.d("index", index+"");
-            contactsDataAccessObject.updateContact(newContact);
-        }
-    }
-    // Get all
+    // Get all contacts
     public ArrayList<Contact> getAll()
     {
         ArrayList<Contact> allContacts = new ArrayList<>();

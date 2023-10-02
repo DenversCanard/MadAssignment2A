@@ -12,11 +12,18 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,63 +44,9 @@ public class MainActivity extends AppCompatActivity {
         // Prep Sql lite DB
         contactsDB = ContactsDataAccessObject.getInstance();
         contactsDB.load(getApplicationContext());
-        contactsDB.clearDatabase();
+        contactsDB.clearDatabase(); // clears db on start for testing
 //        contactsDB.load(getApplicationContext());
 
-
-
-
-        // test DB
-//        Contact contact = new Contact(1,"jimmy1", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(2,"jimmy2", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(3,"jimmy3", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(4,"jimmy4", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(5,"jimmy5", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(6,"jimmy6", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(7,"jimmy7", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(8,"jimmy8", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(9,"jimmy9", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(10,"jimmy10", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(11,"jimmy11", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(12,"jimmy12", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(13,"jimmy13", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(14,"jimmy14", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//
-//        contact = new Contact(15,"jimmy15", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(16,"jimmy16", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(17,"jimmy17", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(18,"jimmy18", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(19,"jimmy19", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//        contact = new Contact(20,"jimmy20", "03450045", "yuppee", null);
-//        contactsDB.addContact(contact);
-//
-
-//        syncContacts();
-//        contactsDB.deleteContact(contactOne);
-//        newContact = contactsDB.getContact(contactOne);
-//        if(newContact == null)
-//        {
-//            Log.d("delete", "success");
-//        }
 
         // Prep mutable data
         mainActivityDataViewModel = new ViewModelProvider(this).get(MainActivityData.class);
@@ -128,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // fragment loading
     public void loadContactsFragment()
     {
         FragmentManager fm = getSupportFragmentManager();
@@ -173,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
                 String curContactNumber = getPhoneNumber(curContactID);
                 String curContactEmail = getEmail(curContactID);
                 // Getphoto
+                Log.d("Id", curContactID+"");
+                byte[] photo  = getPhoto(curContactID);
 
                 // check if a contact exists
                 int contactIndex = contactsDB.getContactPos(curContactNumber);
@@ -180,14 +136,10 @@ public class MainActivity extends AppCompatActivity {
                 // Add contact if it doesn't exist
                 if(contactIndex == 0)
                 {
-                    Contact newContact = new Contact(curContactName, curContactNumber,curContactEmail,null);
+                    Contact newContact = new Contact(curContactName, curContactNumber,curContactEmail,photo);
+                    Log.d("testn",photo+"");
                     contactsDB.addContact(newContact);
                 }
-//                Log.d("Name", curContactName);
-//                Log.d("Number", curContactNumber+"");
-//                Log.d("Email", curContactEmail);
-
-//                getPhoto(curContactID);
 
             }
             while (cursor.moveToNext());
@@ -259,8 +211,35 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
-    public void getPhoto(int id)
+    public byte[] getPhoto(int id)
     {
-        // Todo
+
+        Uri photoUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        String[] queryFields = new String[] {
+                ContactsContract.Contacts.Photo.PHOTO
+        };
+
+        String whereClause = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?";
+        String [] whereValues = new String[]{
+                String.valueOf(id)
+        };
+        Cursor c = getContentResolver().query(
+                photoUri, null, whereClause,whereValues, null);
+
+        try{
+            c.moveToFirst();
+
+            if(c.getCount() > 0)
+            {
+                byte[] photo = c.getBlob(0);
+                return photo;
+            }
+
+        }
+        finally {
+            c.close();
+        }
+
+        return null;
     }
 }

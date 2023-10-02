@@ -49,6 +49,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsVH>
             byte[] image = curContact.getPhoto();
             if(image != null)
             {
+                Log.d("decoding", curContact.getName());
                 Bitmap decoded = BitmapFactory.decodeByteArray(image, 0, image.length);
                 holder.photo.setImageBitmap(decoded);
             }
