@@ -10,12 +10,11 @@ public class ContactsDBCursor extends CursorWrapper {
     }
 
     public Contact getContact() {
-        int id = getInt(getColumnIndex(ContactsDBSchema.ContactsTable.Cols.ID));
         String name = getString(getColumnIndex(ContactsDBSchema.ContactsTable.Cols.NAME));
-        int number = getInt(getColumnIndex(ContactsDBSchema.ContactsTable.Cols.NUMBER));
-        String description = getString(getColumnIndex(ContactsDBSchema.ContactsTable.Cols.DESCRIPTION));
-        String photoPath = getString(getColumnIndex(ContactsDBSchema.ContactsTable.Cols.PHOTO));
+        String number = getString(getColumnIndex(ContactsDBSchema.ContactsTable.Cols.NUMBER));
+        String description = getString(getColumnIndex(ContactsDBSchema.ContactsTable.Cols.EMAIL));
+        byte[] photo = getBlob(getColumnIndex(ContactsDBSchema.ContactsTable.Cols.PHOTO));
 
-        return new Contact(id, name, number, description, photoPath);
+        return new Contact(name, number, description, photo);
     }
 }

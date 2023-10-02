@@ -19,11 +19,10 @@ public class ContactsDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "create table " + ContactsDBSchema.ContactsTable.TNAME
                 + "("
-                + ContactsDBSchema.ContactsTable.Cols.ID+" INTEGER,"
                 + ContactsDBSchema.ContactsTable.Cols.NAME+" TEXT,"
-                + ContactsDBSchema.ContactsTable.Cols.NUMBER+" INTEGER,"
-                + ContactsDBSchema.ContactsTable.Cols.DESCRIPTION+" TEXT,"
-                + ContactsDBSchema.ContactsTable.Cols.PHOTO+" TEXT"
+                + ContactsDBSchema.ContactsTable.Cols.NUMBER+" TEXT,"
+                + ContactsDBSchema.ContactsTable.Cols.EMAIL+" TEXT,"
+                + ContactsDBSchema.ContactsTable.Cols.PHOTO+" BLOB"
                 + ");";
         sqLiteDatabase.execSQL(sql);
     }

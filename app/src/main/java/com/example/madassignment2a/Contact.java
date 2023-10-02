@@ -1,62 +1,52 @@
 package com.example.madassignment2a;
 
 public class Contact {
-    private int id;
     private String name;
-    private int number;
-    private String description;
-    private String photoPath;
+    private String number;
+    private String email;
+    private byte[] photo;
 
-    public Contact(int id, String name, int number, String description, String photoPath)
+    public Contact(String name, String number, String email, byte[] photo)
     {
-        this.id = id;
         this.name = name;
         this.number = number;
-        this.description = description;
-        this.photoPath = photoPath;
+        this.email = email;
+        this.photo = photo;
     }
 
-    public void setId(int id)
-    {
-        this.id = id;
-    }
     public void setName(String name)
     {
         this.name = name;
     }
-    public void setNumber(int number)
+    public void setNumber(String number)
     {
         this.number = number;
     }
-    public void setDescription(String description)
+    public void setEmail(String email)
     {
-        this.description = description;
+        this.email = email;
     }
-    public void setPhotoPath(String photoPath)
+    public void setPhoto(byte[] photo)
     {
-        this.photoPath = photoPath;
+        this.photo = photo;
     }
 
-    public int getId()
-    {
-        return id;
-    }
     public String getName()
     {
         return name;
     }
 
-    public int getNumber()
+    public String getNumber()
     {
         return number;
     }
 
-    public String getDescription()
+    public String getEmail()
     {
-        return description;
+        return email;
     }
-    public String getPhotoPath()
+    public byte[] getPhoto()
     {
-        return photoPath;
+        return photo;
     }
 }

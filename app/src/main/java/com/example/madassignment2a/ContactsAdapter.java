@@ -1,5 +1,7 @@
 package com.example.madassignment2a;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +18,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsVH>
     }
 
     private AdapterListener mCallBack;
-    public ContactsAdapter(AdapterListener callBack)
+    private ContactsDataAccessObject db;
+    public ContactsAdapter(AdapterListener callBack, ContactsDataAccessObject db)
     {
         mCallBack = callBack;
+        this.db = db;
     }
 
     @NonNull
@@ -34,21 +38,33 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsVH>
     @Override
     public void onBindViewHolder(@NonNull ContactsVH holder, int position)
     {
-        // Holder logic goes here
-        holder.name.setText("name" + position);
-        holder.number.setText(position+"");
-        holder.menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCallBack.processCommand("Profile", position); // needs work
+        Contact curContact = db.getContactIndex(position+1);
+
+        if(curContact != null)
+        {
+            // Holder logic goes here
+            holder.name.setText(curContact.getName());
+            holder.number.setText(curContact.getNumber()+"");
+
+            byte[] image = curContact.getPhoto();
+            if(image != null)
+            {
+                Bitmap decoded = BitmapFactory.decodeByteArray(image, 0, image.length);
+                holder.photo.setImageBitmap(decoded);
             }
-        });
-        Log.d("pos", "pos"+position);
+
+            holder.menu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mCallBack.processCommand("Profile", position+1); // needs work
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-            return 40; // Implement properly
+            return db.getAll().size(); // Implement properly
         }
 
 }
