@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                         loadContactsFragment();
                     }
                     if (string.equals("Profile")) {
-                        loadContactInfoFragment();
+                        loadProfileFragment();
                     }
                     verifyScreenState = string;
                 }
@@ -140,15 +140,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void loadContactInfoFragment()
+    public void loadProfileFragment()
     {
         FragmentManager fm = getSupportFragmentManager();
         Fragment frag = fm.findFragmentById(R.id.fragmentContainerView);
         if(frag==null){
-            fm.beginTransaction().add(R.id.fragmentContainerView,profile).commit();
+            fm.beginTransaction().add(R.id.fragmentContainerView,new ProfileFragment()).commit();
         }
         else{
-            fm.beginTransaction().replace(R.id.fragmentContainerView,profile).commit();
+            fm.beginTransaction().replace(R.id.fragmentContainerView,new ProfileFragment()).commit();
         }
     }
 
@@ -176,9 +176,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // check if a contact exists
                 int contactIndex = contactsDB.getContactPos(curContactNumber);
-                Log.d("contact", contactIndex+"");
-                // Add contact if it doesn't exist
 
+                // Add contact if it doesn't exist
                 if(contactIndex == 0)
                 {
                     Contact newContact = new Contact(curContactName, curContactNumber,curContactEmail,null);
@@ -243,8 +242,7 @@ public class MainActivity extends AppCompatActivity {
         };
         Cursor c = getContentResolver().query(
                 emailUri, queryFields, whereClause,whereValues, null);
-        int emailIdx = c.getColumnIndex(
-                ContactsContract.CommonDataKinds.Email.DATA);
+
         try{
             c.moveToFirst();
 

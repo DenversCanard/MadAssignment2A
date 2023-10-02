@@ -24,6 +24,8 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayOutputStream;
 
 public class ProfileFragment extends Fragment {
@@ -45,6 +47,8 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View mainView = inflater.inflate(R.layout.fragment_profile, container, false);
         MainActivityData mainActivityData = new ViewModelProvider(getActivity()).get(MainActivityData.class);
+        ContactsDataAccessObject contactsDataAccessObject = ContactsDataAccessObject.getInstance();
+
 
         Button backButton = mainView.findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -55,20 +59,22 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ContactsDataAccessObject contactsDataAccessObject = ContactsDataAccessObject.getInstance();
 
         // Apply appropriate information
         Log.d("io", mainActivityData.getProfileID()+"");
         if(mainActivityData.getProfileID() != 0)
         {
-            Log.d("Index", mainActivityData.getProfileID()+"");
+//            Log.d("Index", mainActivityData.getProfileID()+"");
             Contact curContact = contactsDataAccessObject.getContactIndex(mainActivityData.getProfileID());
-            Log.d("Name", curContact.getName());
+//            Log.d("Name", curContact.getName());
 
-            ((TextView) mainView.findViewById(R.id.name)).setText(curContact.getName());
-            ((TextView) mainView.findViewById(R.id.number)).setText(curContact.getNumber());
-            ((TextView) mainView.findViewById(R.id.email)).setText(curContact.getEmail());
 
+            ((TextView) mainView.findViewById(R.id.nameProfile)).setText(curContact.getName());
+            ((TextView) mainView.findViewById(R.id.numberProfile)).setText(curContact.getNumber());
+            ((TextView) mainView.findViewById(R.id.emailProfile)).setText(curContact.getEmail());
+
+            String name = ((TextView) mainView.findViewById(R.id.nameProfile)).getText().toString();
+            Log.d("FinalName", name);
             // photo loading
             byte[] imageBytes = curContact.getPhoto();
             if(imageBytes != null)
@@ -79,9 +85,9 @@ public class ProfileFragment extends Fragment {
         }
         else
         {
-            ((TextView) mainView.findViewById(R.id.name)).setText("Name");
-            ((TextView) mainView.findViewById(R.id.number)).setText("Number");
-            ((TextView) mainView.findViewById(R.id.email)).setText("Email");
+            ((TextView) mainView.findViewById(R.id.nameProfile)).setText("Name");
+            ((TextView) mainView.findViewById(R.id.numberProfile)).setText("Number");
+            ((TextView) mainView.findViewById(R.id.emailProfile)).setText("Email");
 
         }
 
@@ -112,18 +118,18 @@ public class ProfileFragment extends Fragment {
                 photoChanged = true;
             }
         });
-
-
-
+//
+//
+//
         FloatingActionButton addButton = mainView.findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 String name = ((TextView) mainView.findViewById(R.id.name)).getText().toString();
-                 String number = ((TextView) mainView.findViewById(R.id.number)).getText().toString();
+                 String name = ((TextView) mainView.findViewById(R.id.nameProfile)).getText().toString();
+                 String number = ((TextView) mainView.findViewById(R.id.numberProfile)).getText().toString();
                  // Need to check that number can be converted to an int
 
-                 String email = ((TextView) mainView.findViewById(R.id.email)).getText().toString();
+                 String email = ((TextView) mainView.findViewById(R.id.emailProfile)).getText().toString();
 
                  // get photo
                  byte[] photo = null;
@@ -156,11 +162,11 @@ public class ProfileFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = ((TextView) mainView.findViewById(R.id.name)).getText().toString();
-                String number = ((TextView) mainView.findViewById(R.id.number)).getText().toString();
+                String name = ((TextView) mainView.findViewById(R.id.nameProfile)).getText().toString();
+                String number = ((TextView) mainView.findViewById(R.id.numberProfile)).getText().toString();
                 // Need to check that number can be converted to an int
 
-                String email = ((TextView) mainView.findViewById(R.id.email)).getText().toString();
+                String email = ((TextView) mainView.findViewById(R.id.emailProfile)).getText().toString();
 
                 // get photo
                 byte[] photo = null;
